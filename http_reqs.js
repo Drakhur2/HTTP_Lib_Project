@@ -1,24 +1,48 @@
 const http = new Library();
 function ShowResponse(responseData, isDeletion) {
     let html = "<ul style='list-style:none'>";
-    console.log(responseData);
-    if(responseData[0].title){
-        responseData.forEach(entry => {
-            html += `<li style=' text-align:left'> - Title: ${entry.title} - <br> Body${entry.body}</li>`;
+
+    if (Array.isArray(responseData)) {
+        responseData.forEach(data => {
+            html += processArrayData(data);
         });
-        
-    }
-    else if (Array.isArray(responseData)) {
-        responseData.forEach(user => {
-            html += `<li style= 'text-align: left'>User ${user.id} - ${user.name} - ${user.username}</li>`;
-        })
     } else {
-        html += `<li>User ${responseData.title} - ${responseData.body}</li>`;
+        html += processSingleData(responseData);
     }
+
     if (isDeletion === true) {
         html += `<li>User: ${responseData} Successfully Deleted</li>`;
     }
+
     document.querySelector("#response").innerHTML = html;
+}
+
+function processArrayData(data) {
+    let html = "";
+
+    if (data.title) {
+        html += `<li style=' text-align:left'> |(^_^)|>> Title: <strong>${data.title}</strong> - <br> <italic>Body:</italic> ${data.body}</li>`;
+    } else if (data.name && data.username) {
+        html += `<li style= 'text-align: left'>User ${data.id} - ${data.name} - ${data.username}</li>`;
+    } else {
+        html += `<li>User ${data} - ${data.body}</li>`;
+    }
+
+    return html;
+}
+
+function processSingleData(data) {
+    let html = "";
+
+    if (data.title) {
+        html += `<li style=' text-align:left'> |(^_^)|>> Title: <strong>${data.title}</strong> - <br> <italic>Body: </italic> ${data.body}</li>`;
+    } else if (data.name && data.username) {
+        html += `<li style= 'text-align: left'>User ${data.id} - ${data.name} - ${data.username}</li>`;
+    } else {
+        html += `<li>User ${data} - ${data.body}</li>`;
+    }
+
+    return html;
 }
 
 function ShowError(err) {
