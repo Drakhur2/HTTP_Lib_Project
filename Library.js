@@ -15,7 +15,7 @@ class Library {
         };
         
         response = await this.#processFetch (targetURL, requestOptions);
-        return await response;
+        return await response.json();
     }
 
     async Post(targetURL, data){ // Having issues with response being undefined
@@ -70,7 +70,7 @@ async patch(targetURL, data){
       })
         .then((response) => {
           if (response.ok) {
-            // Successfully updated the resource
+            
             console.log('Resource updated successfully');
           } else {
             // Handle errors
@@ -88,7 +88,7 @@ async patch(targetURL, data){
 
             let data = await fetch(targetURL, requestOptions);
             return data;
-        }catch (exception) { // called if there's an error, passes it back through the chain for output
+        }catch (exception) { // outputs the error to the response
             throw exception;
         }
     }

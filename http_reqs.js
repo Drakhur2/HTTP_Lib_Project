@@ -1,15 +1,22 @@
 const http = new Library();
 function ShowResponse(responseData, isDeletion) {
     let html = "<ul style='list-style:none'>";
-    if (Array.isArray(responseData)) {
+    console.log(responseData);
+    if(responseData[0].title){
+        responseData.forEach(entry => {
+            html += `<li style=' text-align:left'> - Title: ${entry.title} - <br> Body${entry.body}</li>`;
+        });
+        
+    }
+    else if (Array.isArray(responseData)) {
         responseData.forEach(user => {
-            html += `<li>User ${user.id} - ${user.name}</li>`;
+            html += `<li style= 'text-align: left'>User ${user.id} - ${user.name} - ${user.username}</li>`;
         })
     } else {
-        html += `<li>User ${responseData.body} - ${responseData.header}</li>`;
+        html += `<li>User ${responseData.title} - ${responseData.body}</li>`;
     }
     if (isDeletion === true) {
-        html += `<li>Successfully Deleted</li>`;
+        html += `<li>User: ${responseData} Successfully Deleted</li>`;
     }
     document.querySelector("#response").innerHTML = html;
 }
